@@ -40,11 +40,13 @@ public class Game {
             // Process the key stroke if one is available
             if (key != null) {
                 processKey(key);
+
+
             }
         }
     }
 
-    public void processKey(KeyStroke keyStroke)  {
+    public void processKey(KeyStroke keyStroke) throws IOException {
         KeyType keyType = keyStroke.getKeyType();
 
         switch (keyType) {
@@ -64,14 +66,20 @@ public class Game {
                 // If the ArrowLeft key is pressed, decrement x by 1
                 x--;
                 break;
+            case Character:
+                if (keyStroke.getCharacter() == 'q') {
+
+                    screen.close();
+                    return;
+                }
+            case EOF:
+                break;
             default:
                 // Handle other key types or do nothing
                 break;
         }
 
-        // You can add additional logic here as needed for your game
+
     }
-
-
 }
 

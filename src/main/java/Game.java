@@ -30,7 +30,8 @@ public class Game {
         screen.setCursorPosition(null);
         screen.startScreen();
         screen.doResizeIfNecessary();
-        Hero = new hero(10, 10);
+        Position heroPosition = new Position(10, 10);
+        Hero = new hero(heroPosition);
     }
 
     private void draw() throws IOException {
@@ -42,6 +43,10 @@ public class Game {
     private void exitGame() throws IOException{
         screen.close();
         state = null;
+    }
+
+    private void moveHero(Position position) {
+        Hero.setPosition(position);
     }
 
     public void run() throws IOException {
@@ -65,19 +70,19 @@ public class Game {
         switch (keyType) {
             case ArrowUp:
                 // If the ArrowUp key is pressed, decrement y by 1
-                Hero.moveUp();
+                moveHero(Hero.moveUp());
                 break;
             case ArrowRight:
                 // If the ArrowRight key is pressed, increment x by 1
-                Hero.moveRight();
+                moveHero(Hero.moveRight());
                 break;
             case ArrowDown:
                 // If the ArrowDown key is pressed, increment y by 1
-                Hero.moveDown();
+                moveHero(Hero.moveDown());
                 break;
             case ArrowLeft:
                 // If the ArrowLeft key is pressed, decrement x by 1
-                Hero.moveLeft();
+                moveHero(Hero.moveLeft());
                 break;
             case Character:
                 if (keyStroke.getCharacter() == 'q') {

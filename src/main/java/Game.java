@@ -10,8 +10,16 @@ import com.googlecode.lanterna.terminal.Terminal;
 import java.io.IOException;
 
 public class Game {
+    enum State {
+        Pause,
+        Options,
+        GameOver,
+        Play
+    }
     private final TerminalScreen screen;
     private final hero Hero;
+
+    private State state = State.Play;
 
 
     public Game(int width, int height) throws IOException {
@@ -31,8 +39,13 @@ public class Game {
         screen.refresh();
     }
 
+    private void exitGame() throws IOException{
+        screen.close();
+        state = null;
+    }
+
     public void run() throws IOException {
-        while (true) {
+        while (state != null) {
             draw();
             KeyStroke key = screen.readInput();
 
@@ -43,6 +56,7 @@ public class Game {
 
             }
         }
+        screen.close();
     }
 
     public void processKey(KeyStroke keyStroke) throws IOException {
@@ -68,10 +82,11 @@ public class Game {
             case Character:
                 if (keyStroke.getCharacter() == 'q') {
 
-                    screen.close();
-                    return;
+                    exitGame();
+                    break;
                 }
             case EOF:
+                exitGame();
                 break;
             default:
                 // Handle other key types or do nothing

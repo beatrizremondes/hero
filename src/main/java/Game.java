@@ -11,8 +11,7 @@ import java.io.IOException;
 
 public class Game {
     private final TerminalScreen screen;
-    private int x = 10;
-    private int y = 10;
+    private final hero Hero;
 
 
     public Game(int width, int height) throws IOException {
@@ -23,12 +22,12 @@ public class Game {
         screen.setCursorPosition(null);
         screen.startScreen();
         screen.doResizeIfNecessary();
-
+        Hero = new hero(10, 10);
     }
 
     private void draw() throws IOException {
         screen.clear();
-        screen.setCharacter(x, y, TextCharacter.fromCharacter('X')[0]);
+        Hero.draw(screen);
         screen.refresh();
     }
 
@@ -52,19 +51,19 @@ public class Game {
         switch (keyType) {
             case ArrowUp:
                 // If the ArrowUp key is pressed, decrement y by 1
-                y--;
+                Hero.moveUp();
                 break;
             case ArrowRight:
                 // If the ArrowRight key is pressed, increment x by 1
-                x++;
+                Hero.moveRight();
                 break;
             case ArrowDown:
                 // If the ArrowDown key is pressed, increment y by 1
-                y++;
+                Hero.moveDown();
                 break;
             case ArrowLeft:
                 // If the ArrowLeft key is pressed, decrement x by 1
-                x--;
+                Hero.moveLeft();
                 break;
             case Character:
                 if (keyStroke.getCharacter() == 'q') {
